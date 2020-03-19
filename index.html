@@ -32,8 +32,8 @@
       border: none;
       border-bottom: solid 1px black;
       text-align: center;
-      width: 45%;
-      max-width: 300px;
+      width: 55%;
+      max-width: 600px;
     }
     .options input {
       margin-right: 10px;
@@ -41,6 +41,9 @@
     .title button {
       font-size: 1.5rem;
       margin-left: 10px;
+      border: none;
+      background: #444;
+      color: #eee;
     }
     main {
       padding-bottom: 40px;
@@ -69,7 +72,10 @@
       <div>最大字数：<input id="maxLength" type="range" min="1000" max="10000" step="100" value="5000"><span>5000</span></div>
     </div>
     <div class="ref"><a href="https://github.com/menzi11/BullshitGenerator">原版</a></div>
-    <div class="title"><span>标题：</span><input id="title" type="text" value=""><button>生成</button></div>
+    <div class="title"><span>标题：</span><input id="title" type="text" value="">
+      <button id="generate">生成</button>
+      <button id="anotherTitle">换</button>
+    </div>
   </header>
   <main>
     <article></article>
@@ -85,16 +91,22 @@
       config[target.id] = num;
       target.parentNode.querySelector('input + span').innerHTML = num;
     });
-    const generateButton = document.querySelector('.title button');
+    const generateButton = document.getElementById('generate');
+    const anotherTitleButton = document.getElementById('anotherTitle');
     const article = document.querySelector('article');
     const titleEl = document.getElementById('title');
 
     (async function () {
       const data = await (await fetch('./lib/data.json')).json();
-      titleEl.value = createRandomPicker(data.title)();
+      const pick = createRandomPicker(data.title);
+      titleEl.value = pick();
       generateButton.addEventListener('click', async () => {
         const text = await generate(titleEl.value, {data, ...config});
         article.innerHTML = `<section>${text.join('</section><section>')}</section>`;
+      });
+      anotherTitleButton.addEventListener('click', () => {
+        titleEl.value = pick();
+        if(article.innerHTML) generateButton.click();
       });
     }());
   </script>
