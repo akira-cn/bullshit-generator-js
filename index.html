@@ -55,6 +55,10 @@
       bottom: 0;
       background-color: white;
     }
+    @media screen and (max-width: 480px) {
+      .title span {display: none;}
+      #title {font-size: 1.2rem;}
+    }
   </style>
 </head>
 <body>
@@ -64,7 +68,7 @@
       <div>最大字数：<input id="maxLength" type="range" min="1000" max="10000" step="100" value="5000"><span>5000</span></div>
     </div>
     <div class="ref"><a href="https://github.com/menzi11/BullshitGenerator">原版</a></div>
-    <div class="title">标题：<input id="title" type="text" value=""><button>生成</button></div>
+    <div class="title"><span>标题：</span><input id="title" type="text" value=""><button>生成</button></div>
   </header>
   <main>
     <article></article>
