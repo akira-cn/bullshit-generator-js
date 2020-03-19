@@ -4,7 +4,7 @@
 
 用 Node.js 重写，改良了一点点策略。
 
-在线访问 https://akira-cn.github.io/bullshit-generator-js。
+在线访问 https://akira-cn.github.io/bullshit-generator-js
 
 ## 改进点
 
