@@ -64,7 +64,7 @@
       <div>最大字数：<input id="maxLength" type="range" min="1000" max="10000" step="100" value="5000"><span>5000</span></div>
     </div>
     <div class="ref"><a href="https://github.com/menzi11/BullshitGenerator">原版</a></div>
-    <div class="title">标题：<input id="title" type="text" value="熬夜一时爽"><button>生成</button></div>
+    <div class="title">标题：<input id="title" type="text" value=""><button>生成</button></div>
   </header>
   <main>
     <article></article>
@@ -72,6 +72,7 @@
   <footer>改进版：<a href="https://github.com/akira-cn/bullshit-generator-js">bullshit-generator-js</a> 作者：月影</footer>
   <script type="module">
     import {generate} from './lib/generator.js';
+    import {randomPick} from './lib/random.js';
     const options = document.querySelector('.options');
     const config = {minLength: 2000, maxLength: 5000};
     options.addEventListener('change', ({target}) => {
@@ -82,12 +83,15 @@
     const generateButton = document.querySelector('.title button');
     const article = document.querySelector('article');
     const titleEl = document.getElementById('title');
-    generateButton.addEventListener('click', async () => {
-      const data = await (await fetch('./lib/data.json')).json();
-      const text = await generate(titleEl.value, {data, ...config});
 
-      article.innerHTML = `<section>${text.join('</section><section>')}</section>`;
-    });
+    (async function () {
+      const data = await (await fetch('./lib/data.json')).json();
+      titleEl.value = randomPick(data.title);
+      generateButton.addEventListener('click', async () => {
+        const text = await generate(titleEl.value, {data, ...config});
+        article.innerHTML = `<section>${text.join('</section><section>')}</section>`;
+      });
+    }());
   </script>
 </body>
 </html>
