@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>狗屁不通文章生成器</title>
+  <style>
+    header {
+      height: 120px;
+      border-bottom: solid 1px #777;
+    }
+    .options {
+      float: right;
+      display: flex;
+      flex-direction: column;
+    }
+    .options div {
+      width: 300px;
+    }
+    #title {
+      font-size: 1.5rem;
+    }
+    .title {
+      clear: both;
+      line-height: 60px;
+      text-align: center;
+      font-size: 1.5rem;
+      padding-top: 12px;
+    }
+    .title input {
+      outline: none;
+      border: none;
+      border-bottom: solid 1px black;
+      text-align: center;
+      width: 45%;
+      max-width: 300px;
+    }
+    .options input {
+      margin-right: 10px;
+    }
+    .title button {
+      font-size: 1.5rem;
+      margin-left: 10px;
+    }
+    main {
+      padding-bottom: 40px;
+    }
+    section {
+      text-indent: 3rem;
+      padding: 10px 0;
+    }
+    footer {
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="options">
+      <div>最小字数：<input id="minLength" type="range" min="500" max="5000" step="100" value="2000"><span>2000</span></div>
+      <div>最大字数：<input id="maxLength" type="range" min="1000" max="10000" step="100" value="5000"><span>5000</span></div>
+    </div>
+    <div class="ref"><a href="https://github.com/menzi11/BullshitGenerator">原版</a></div>
+    <div class="title">标题：<input id="title" type="text" value="熬夜一时爽"><button>生成</button></div>
+  </header>
+  <main>
+    <article></article>
+  </main>
+  <footer>改进版：</footer>
+  <script type="module">
+    import {generate} from './lib/generator.js';
+    const options = document.querySelector('.options');
+    const config = {minLength: 2000, maxLength: 5000};
+    options.addEventListener('change', ({target}) => {
+      const num = Number(target.value);
+      config[target.id] = num;
+      target.parentNode.querySelector('input + span').innerHTML = num;
+    });
+    const generateButton = document.querySelector('.title button');
+    const article = document.querySelector('article');
+    const titleEl = document.getElementById('title');
+    generateButton.addEventListener('click', async () => {
+      const data = await (await fetch('./lib/data.json')).json();
+      const text = await generate(titleEl.value, {data, ...config});
+
+      article.innerHTML = `<section>${text.join('</section><section>')}</section>`;
+    });
+  </script>
+</body>
+</html>
