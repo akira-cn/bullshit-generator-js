@@ -77,7 +77,7 @@
   <footer>改进版：<a href="https://github.com/akira-cn/bullshit-generator-js">bullshit-generator-js</a> 作者：月影</footer>
   <script type="module">
     import {generate} from './lib/generator.js';
-    import {randomPick} from './lib/random.js';
+    import {createRandomPicker} from './lib/random.js';
     const options = document.querySelector('.options');
     const config = {minLength: 2000, maxLength: 5000};
     options.addEventListener('change', ({target}) => {
@@ -91,7 +91,7 @@
 
     (async function () {
       const data = await (await fetch('./lib/data.json')).json();
-      titleEl.value = randomPick(data.title);
+      titleEl.value = createRandomPicker(data.title)();
       generateButton.addEventListener('click', async () => {
         const text = await generate(titleEl.value, {data, ...config});
         article.innerHTML = `<section>${text.join('</section><section>')}</section>`;
