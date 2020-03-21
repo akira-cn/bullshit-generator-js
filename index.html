@@ -100,7 +100,7 @@
     const titleEl = document.getElementById('title');
 
     (async function () {
-      const data = await (await fetch('./lib/data.json')).json();
+      const data = await (await fetch('./corpus/data.json')).json();
       const pick = createRandomPicker(data.title);
       titleEl.value = pick();
       generateButton.addEventListener('click', async () => {
