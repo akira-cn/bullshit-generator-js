@@ -100,15 +100,15 @@
     const titleEl = document.getElementById('title');
 
     (async function () {
-      const data = await (await fetch('./corpus/data.json')).json();
-      const pick = createRandomPicker(data.title);
-      titleEl.value = pick();
-      generateButton.addEventListener('click', async () => {
-        const text = await generate(titleEl.value, {data, ...config});
+      const corpus = await (await fetch('./corpus/data.json')).json();
+      const pickTitle = createRandomPicker(corpus.title);
+      titleEl.value = pickTitle();
+      generateButton.addEventListener('click', () => {
+        const text = generate(titleEl.value, {corpus, ...config});
         article.innerHTML = `<section>${text.join('</section><section>')}</section>`;
       });
       anotherTitleButton.addEventListener('click', () => {
-        titleEl.value = pick();
+        titleEl.value = pickTitle();
         if(article.innerHTML) generateButton.click();
       });
     }());

@@ -2,7 +2,8 @@
   "name": "bullshit-generator",
   "version": "0.1.0",
   "description": "",
-  "main": "lib/generator.js",
+  "main": "index.js",
+  "type": "module",
   "directories": {
     "lib": "lib"
   },
@@ -17,5 +18,7 @@
     "eslint-plugin-html": "^6.0.0",
     "http-server": "^0.12.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "moment": "^2.24.0"
+  }
 }

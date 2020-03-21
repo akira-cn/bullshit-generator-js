@@ -15,3 +15,5 @@ package-lock.json
 *.ntvs*
 *.njsproj
 *.sln
+
+output
