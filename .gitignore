@@ -17,3 +17,5 @@ package-lock.json
 *.sln
 
 output
+
+test.js
