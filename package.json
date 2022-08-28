@@ -2,17 +2,20 @@
   "name": "bullshit-generator",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "index.js",
   "type": "module",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
     "start": "http-server -c-1 -p3000",
+    "build": "node build.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "akira-cn",
   "devDependencies": {
+    "esbuild": "^0.15.5",
     "eslint": "^6.8.0",
     "eslint-config-sprite": "^1.0.6",
     "eslint-plugin-html": "^6.0.0",
