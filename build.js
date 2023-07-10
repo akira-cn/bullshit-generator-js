@@ -1,10 +1,16 @@
 import {build} from 'esbuild';
 
-const buildOptions = {
+build({
   entryPoints: ['./browser/index.js'],
-  outfile: './dist/index.js',
+  outfile: './dist/bullshit-generator.browser.js',
   bundle: true,
   minify: true,
-};
+});
 
-build(buildOptions);
+build({
+  entryPoints: ['./index.js'],
+  outfile: './dist/bullshit-generator.cjs',
+  format: "cjs",
+  bundle: true,
+  external: ['require', 'fs', 'path', 'url'],
+});

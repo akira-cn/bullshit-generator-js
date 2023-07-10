@@ -1,8 +1,8 @@
 {
   "name": "bullshit-generator-js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/bullshit-generator.cjs",
   "module": "index.js",
   "bin": {  
     "bullshit": "./bin/index.js"  
