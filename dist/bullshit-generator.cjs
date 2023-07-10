@@ -3969,7 +3969,7 @@ function sentence(pick, replacer) {
   }
   return ret;
 }
-function generate(title2, {
+function generate(title, {
   corpus: corpus2,
   min = 6e3,
   max = 1e4
@@ -3987,9 +3987,9 @@ function generate(title2, {
       if (n < 20) {
         section += sentence(pickFamous, { said: pickSaid, conclude: pickConclude });
       } else if (n < 50) {
-        section += sentence(pickBoshBefore, { title: title2 }) + sentence(pickBosh, { title: title2 });
+        section += sentence(pickBoshBefore, { title }) + sentence(pickBosh, { title });
       } else {
-        section += sentence(pickBosh, { title: title2 });
+        section += sentence(pickBosh, { title });
       }
     }
     totalLength += section.length;
@@ -4014,8 +4014,8 @@ function loadCorpus(src) {
 
 // index.js
 var corpus = loadCorpus("./corpus/data.json");
-var title = createRandomPicker(corpus.title)();
 var bullshit_generator_js_default = (min = 200, max = 1e3) => {
+  const title = createRandomPicker(corpus.title)();
   return generate(title, { corpus, min, max });
 };
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
