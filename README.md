@@ -6,6 +6,8 @@
 
 在线访问 https://akira-cn.github.io/bullshit-generator-js
 
+新增pua版：https://akira-cn.github.io/bullshit-generator-js/index-pua.html
+
 ## 改进点
 
 - 语句更通顺了些（虽然还是狗屁不通🐶）。
