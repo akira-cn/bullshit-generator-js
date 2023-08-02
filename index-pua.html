@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>狗屁不通文章生成器</title>
+  <style>
+    header {
+      height: 120px;
+      border-bottom: solid 1px #777;
+    }
+    .options {
+      float: right;
+      display: flex;
+      flex-direction: column;
+    }
+    .options div {
+      width: 300px;
+    }
+    #title {
+      font-size: 1.5rem;
+    }
+    .title {
+      clear: both;
+      line-height: 60px;
+      text-align: center;
+      font-size: 1.5rem;
+      padding-top: 12px;
+    }
+    .title input {
+      outline: none;
+      border: none;
+      border-bottom: solid 1px black;
+      text-align: center;
+      width: 45%;
+      max-width: 600px;
+    }
+    .options input {
+      margin-right: 10px;
+    }
+    .title button {
+      font-size: 1.5rem;
+      margin-left: 10px;
+      border: none;
+      background: #444;
+      color: #eee;
+    }
+    main {
+      padding-bottom: 40px;
+    }
+    section {
+      text-indent: 3rem;
+      padding: 10px 0;
+    }
+    footer {
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      background-color: white;
+    }
+    @media screen and (max-width: 480px) {
+      .title span {display: none;}
+      #title {font-size: 1.2rem;}
+      .title button {
+        font-size: 1.2rem;
+      }
+      section {text-indent: 2.4rem;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="options">
+      <div>最小字数：<input id="min" type="range" min="500" max="5000" step="100" value="500"><span>500</span></div>
+      <div>最大字数：<input id="max" type="range" min="1000" max="10000" step="100" value="5000"><span>5000</span></div>
+    </div>
+    <div class="ref"><a href="https://github.com/menzi11/BullshitGenerator">原版</a></div>
+    <div class="title"><span>级别：</span><input id="title" type="text" value="">
+      <button id="generate">生成</button>
+      <button id="anotherTitle">换</button>
+    </div>
+  </header>
+  <main>
+    <article></article>
+  </main>
+  <footer>改进版：<a href="https://github.com/akira-cn/bullshit-generator-js">bullshit-generator-js</a> 作者：月影</footer>
+  <script type="module">
+    import {generate} from './lib/generator.js';
+    import {createRandomPicker} from './lib/random.js';
+    const options = document.querySelector('.options');
+    const config = {min: 2000, max: 5000};
+    options.addEventListener('change', ({target}) => {
+      const num = Number(target.value);
+      config[target.id] = num;
+      target.parentNode.querySelector('input + span').innerHTML = num;
+    });
+    const generateButton = document.getElementById('generate');
+    const anotherTitleButton = document.getElementById('anotherTitle');
+    const article = document.querySelector('article');
+    const titleEl = document.getElementById('title');
+
+    (async function () {
+      const corpus = await (await fetch('./corpus/data-pua.json')).json();
+      const pickTitle = createRandomPicker(corpus.title);
+      titleEl.value = pickTitle();
+      generateButton.addEventListener('click', () => {
+        const text = generate(titleEl.value, {corpus, ...config});
+        article.innerHTML = `<section>${text.join('</section><section>')}</section>`;
+      });
+      anotherTitleButton.addEventListener('click', () => {
+        titleEl.value = pickTitle();
+        if(article.innerHTML) generateButton.click();
+      });
+    }());
+  </script>
+</body>
+</html>
